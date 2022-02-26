@@ -1,0 +1,30 @@
+.nav
+    @apply bg-white w-full p-4 rounded-b-2xl shadow-lg text-gray-600 transition duration-1000 ease-in-out
+    @apply md:w-48 md:fixed md:m-4 md:rounded-2xl
+    @apply lg:w-64
+
+    &__title
+        @apply text-gray-600 font-light tracking-widest uppercase pb-4
+
+    &__list
+        @apply space-y-2
+
+    &__list-item
+        a
+            @apply transition-all duration-75 hover:bg-indigo-100 hover:text-indigo-700 p-4 rounded-2xl flex place-items-center
+
+        svg
+            @apply w-6 h-6
+
+        span
+            @apply ml-4 font-semibold tracking-tight
+
+    &__list-item-active
+        a
+            @apply transition-all bg-indigo-600 text-white rounded-2xl p-4 rounded-2xl flex place-items-center
+
+        svg
+            @apply w-6 h-6
+
+        span
+            @apply ml-4 font-semibold tracking-tight

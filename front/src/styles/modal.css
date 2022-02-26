@@ -1,0 +1,20 @@
+.modal {
+  @apply flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0;
+}
+.modal__background {
+  @apply fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity backdrop-blur -z-10;
+}
+.modal__parent {
+  @apply inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full;
+}
+.modal__card {
+  @apply bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4;
+}
+.modal__title {
+  @apply text-xl leading-6 font-bold text-gray-900 border-b pb-2;
+}
+.modal__footer {
+  @apply bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse;
+}
+
+/*# sourceMappingURL=modal.css.map */

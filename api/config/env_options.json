@@ -1,0 +1,19 @@
+{
+    "confKey": "config",
+    "dotenv": true,
+    "schema": {
+        "type": "object",
+        "required": ["PORT"],
+        "properties": {
+            "PORT": {
+                "type": "string"
+            },
+            "DB_PATH": {
+                "type": "string"
+            },
+            "ROUTINE_INTERVAL": {
+                "type": "number"
+            }
+        }
+    }
+}
