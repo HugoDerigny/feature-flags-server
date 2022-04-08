@@ -4,7 +4,7 @@
 
 > Everything is free since it's a self-hosted API.
 
-> If you are planning to use this API with a react front end, check the hook i made that use this API : [react-use-feature-flags-api]()
+> If you are planning to use this API with a react front end, check the hook i made that use this API : [use-feature-flags](https://www.npmjs.com/package/use-feature-flags)
 
 **Summary**
 
@@ -62,9 +62,10 @@ AUTHORIZATION=ABCDEFGH
 
 | Key             | Description                                                                                                                                                                                    | Default value           | Required |
 |-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------|----------|
-| `DB_PATH`       | The relative or absolute path to your **SQLite Database**. To persist data you can specify an external directory.<br/> If you are using ** Docker**, you can specify a volume (see here #todo) | `./db/feature_flags.db` | ✅        |
+| `DB_PATH`       | The relative or absolute path to your **SQLite
+Database**. To persist data you can specify an external directory.<br/> If you are using ** Docker**, you can specify a volume (see here #todo) | `./db/feature_flags.db` | ❌        |
 | `PORT`          | The port used by our API to run.                                                                                                                                                               | `3001`                  | ❌        |
-| `AUTHORIZATION` | A key to verify requests.                                                                                                                                                                      | ``                      | ✅        |
+| `AUTHORIZATION` | A key to verify requests.                                                                                                                                                                      | `undefined`             | ✅        |
 
 For the **front** you'll need these variables :
 
@@ -79,7 +80,7 @@ REACT_APP_API_AUTHORIZATION=ABCDEGH
 |-------------------------------|------------------------------------------------|-------------------------|----------|
 | `PORT`                        | The port used by our app to run.               | `3000`                  | ❌        |
 | `REACT_APP_API_URL`           | The URL that the API is using.                 | `http://localhost:4001` | ✅        |
-| `REACT_APP_API_AUTHORIZATION` | Key provided by the API to allow the requests. | ``                      | ✅        |
+| `REACT_APP_API_AUTHORIZATION` | Key provided by the API to allow the requests. | `undefined`             | ✅        |
 
 4. Start apps
 
@@ -148,7 +149,8 @@ Create a new service with no flags yet.
 
 ```json5
 {
-  "name": "my-service" // any string
+  "name": "my-service"
+  // any string
 }
 ```
 
@@ -179,7 +181,8 @@ Update a service name
 
 ```json5
 {
-  "name": "my-service-updated" // any string
+  // any string
+  "name": "my-service-updated"
 }
 ```
 
@@ -207,7 +210,6 @@ Delete a service if it has no flags.
 
 ✅ 204 No content
 
-
 #### GET `/services/:uid/flags`
 
 Fetch all flags for a service.
@@ -218,8 +220,23 @@ Fetch all flags for a service.
 
 *Response*
 
-```json5
+❌ 404 Not found *if service uid is wrong*
 
+✅ 201 Created
+
+```json5
+[
+  {
+    "key": "my-key",
+    "value": "",
+    "enabled": true
+  },
+  {
+    "key": "my-other-key",
+    "value": "The value you defined",
+    "enabled": false
+  }
+]
 ```
 
 ### Flags
