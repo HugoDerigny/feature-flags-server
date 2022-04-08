@@ -3,6 +3,8 @@
 @import url("typos.css");
 @import url("button.css");
 @import url("form.css");
+@import url("tabs.css");
+@import url("row.css");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,6 +14,7 @@ main {
 
 html {
   @apply bg-gray-100;
+  @apply dark:bg-gray-900;
 }
 
 /*# sourceMappingURL=index.css.map */

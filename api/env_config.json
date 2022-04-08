@@ -1,0 +1,19 @@
+{
+  "confKey": "config",
+  "dotenv": true,
+  "schema": {
+    "type": "object",
+    "required": ["AUTHORIZATION"],
+    "properties": {
+      "PORT": {
+        "type": "string"
+      },
+      "DB_PATH": {
+        "type": "string"
+      },
+      "AUTHORIZATION": {
+        "type": "string"
+      }
+    }
+  }
+}

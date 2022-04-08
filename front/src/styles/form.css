@@ -1,10 +1,12 @@
 .input {
-  @apply mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring-2 !important;
+  @apply mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-300 focus:ring-2 !important;
   --tw-ring-opacity: 0.5 !important;
+  @apply dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400 dark:border-gray-600 !important;
 }
 
 label {
   @apply text-gray-900 !important;
+  @apply dark:text-gray-100 !important;
 }
 
 /*# sourceMappingURL=form.css.map */

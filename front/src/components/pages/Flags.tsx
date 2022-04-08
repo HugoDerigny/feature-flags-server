@@ -1,14 +1,14 @@
 import { FC, useContext, useEffect, useState } from 'react'
 import { GlobalContext } from '../context/GlobalContext'
 import Button from '../atoms/Button'
-import { EnumModal } from '../../types/EnumModals'
-import { FlagsList } from '../organisms/FlagsList'
+import FlagsList from '../organisms/FlagsList'
 import Flag from '../../model/Flag'
-import axios, { AxiosError, AxiosResponse } from 'axios'
-import { ServiceGroupFactory } from '../../model/ServiceGroup'
+import { AxiosError, AxiosResponse } from 'axios'
+import ModalFlagConfig from '../molecules/modals/ModalFlagConfig'
+import { http } from '../../utils'
 
 const Flags: FC<any> = () => {
-	const { modal } = useContext(GlobalContext)
+	const { modal, services } = useContext(GlobalContext)
 
 	const [flags, setFlags] = useState<Flag[]>([])
 
@@ -18,11 +18,9 @@ const Flags: FC<any> = () => {
 
 	async function fetchFlags(): Promise<void> {
 		try {
-			const response: AxiosResponse = await axios.get(
-				process.env.REACT_APP_API_URL + '/flags'
-			)
+			const response: AxiosResponse = await http.get('/flags')
 
-			setFlags(response.data.map(Flag.fromJson))
+			setFlags(response.data.map(Flag.Deserialize))
 		} catch (e) {
 			const error = e as AxiosError
 
@@ -38,7 +36,8 @@ const Flags: FC<any> = () => {
 					name='add'
 					color='full'
 					type='button'
-					onClick={() => modal.set(EnumModal.FLAG_CONFIG, { fetchFlags })}
+					disabled={!services || services.length === 0}
+					onClick={() => modal.set(<ModalFlagConfig fetchFlags={fetchFlags} />)}
 				>
 					<svg
 						className='w-6 h-6 mr-2'
@@ -54,7 +53,7 @@ const Flags: FC<any> = () => {
 							d='M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
 						/>
 					</svg>
-					Ajouter
+					Add
 				</Button>
 			</header>
 			<FlagsList flags={flags} fetchFlags={fetchFlags} />

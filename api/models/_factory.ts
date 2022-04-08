@@ -1,26 +1,13 @@
-import { Sequelize } from 'sequelize'
-import Group from './Group'
-import Service from './Service'
-import Vital from './Vital'
-import Workflow from './Workflow'
-import Flag from './Flag'
+import Service, { initializeServices } from './Service'
+import Flag, { initializeFlags } from './Flag'
+import { Sequelize } from '@sequelize/core'
 
 export default async function InitializeModels(sequelize: Sequelize): Promise<void> {
-	// Services and groups
-	await Group.initialize(sequelize)
-	await Service.initialize(sequelize)
-	await Vital.initialize(sequelize)
-	await Flag.initialize(sequelize)
+	await initializeServices(sequelize)
+	await initializeFlags(sequelize)
 
-	Group.hasMany(Service, { foreignKey: 'groupId', as: 'services' })
-	Service.belongsTo(Group)
+	Service.hasMany(Flag, { sourceKey: 'id', foreignKey: 'serviceId', as: 'flags' })
 
-	Service.hasMany(Vital, { foreignKey: 'serviceId', as: 'vitals' })
-	Vital.belongsTo(Service)
-
-	Service.hasMany(Flag, { foreignKey: 'serviceId', as: 'flags' })
-	Flag.belongsTo(Service)
-
-	// Workflows with runs
-	await Workflow.initialize(sequelize)
+	await Service.sync()
+	await Flag.sync({ alter: true })
 }

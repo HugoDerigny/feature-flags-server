@@ -1,0 +1,31 @@
+.row-wrapper
+	@apply bg-white rounded-2xl shadow-lg mt-4 flex flex-col divide-y
+	@apply dark:bg-gray-800 dark:divide-gray-700
+
+	.row
+		@apply py-4 px-6 cursor-pointer hover:bg-gray-50 hover:first:rounded-t-2xl hover:last:rounded-b-2xl space-y-2
+		@apply dark:hover:bg-gray-700
+
+		&__content
+			@apply flex justify-between place-items-center
+
+		&__start
+			@apply flex space-x-2 place-items-center
+
+		&__title
+			@apply font-bold text-gray-800
+			@apply dark:text-gray-100
+
+		&__subtitle
+			@apply text-gray-700
+			@apply dark:text-gray-200
+
+		&__text
+			@apply text-sm text-gray-400
+
+		&__end
+			@apply justify-self-end
+
+		&__flag-button
+			@apply transition pointer-events-auto bg-transparent hover:bg-gray-200 rounded-full p-2
+			@apply dark:hover:bg-gray-600

@@ -1,90 +1,42 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import Flag from '../models/Flag'
-import Service from '../models/Service'
+import { verifyAuthorization } from '../middlewares/verify-auth.middleware'
 
 const FlagsHandler = {
 	getAll: async (req: FastifyRequest, res: FastifyReply) => {
+		verifyAuthorization(req, res)
+
 		try {
 			const flags = await Flag.findAll()
-			const services = await Service.findAll()
 
-			for (const flag of flags) {
-				const correspondingService: Service = services.find(
-					(service) => service.getDataValue('id') === flag.getDataValue('serviceId')
-				)!!
-
-				flag.setDataValue(
-					'_serviceLabel',
-					`[${correspondingService
-						.getDataValue('environment')
-						.toUpperCase()}] ${correspondingService.getDataValue('name')}`
-				)
-			}
-
-			res.send(flags)
+			res.status(200).send(flags)
 		} catch (e) {
 			res.status(500).send(e)
 		}
 	},
 	create: async (req: FastifyRequest, res: FastifyReply) => {
+		verifyAuthorization(req, res)
+
 		try {
-			const { serviceId, key, description, enabled, value }: any = req.body
+			const flag = await Flag.create(req.body as any)
 
-			await Flag.create({
-				serviceId,
-				key,
-				description,
-				value,
-				enabled,
-				enabledForEdge: enabled,
-				enabledForChrome: enabled,
-				enabledForFirefox: enabled,
-				enabledForIE: enabled,
-				enabledForOpera: enabled,
-				enabledForSafari: enabled,
-			})
-
-			res.status(201).send()
+			res.status(201).send(flag)
 		} catch (e) {
 			res.status(500).send(e)
 		}
 	},
 	update: async (req: FastifyRequest, res: FastifyReply) => {
+		verifyAuthorization(req, res)
+
 		try {
 			const { id }: any = req.params
-			const {
-				serviceId,
-				key,
-				description,
-				value,
-				enabled,
-				enabledForEdge,
-				enabledForChrome,
-				enabledForFirefox,
-				enabledForIE,
-				enabledForOpera,
-				enabledForSafari,
-			}: any = req.body
-
 			const flag: Flag | null = await Flag.findByPk(id)
 
 			if (!flag) {
 				res.status(404).send('Flag not found')
 			}
 
-			await flag!.update({
-				serviceId,
-				key,
-				description,
-				value,
-				enabled,
-				enabledForEdge,
-				enabledForChrome,
-				enabledForFirefox,
-				enabledForIE,
-				enabledForOpera,
-				enabledForSafari,
-			})
+			await flag!.update(req.body as any)
 			await flag!.save()
 
 			res.status(204).send()

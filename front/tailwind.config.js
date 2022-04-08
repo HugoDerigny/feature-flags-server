@@ -1,12 +1,14 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
-	content: ['./src/**/*.{js,jsx,ts,tsx}', './styles/**/*.{sass,css}', './public/index.html'],
-	safelist: [
-		{
-			pattern: /(bg|border)-(indigo|blue|orange|pink|purple)-(400|500|600)/,
-		},
-	],
+	content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				primary: colors.violet,
+			},
+		},
 	},
 	plugins: [require('@tailwindcss/forms')({ strategy: 'class' })],
 }

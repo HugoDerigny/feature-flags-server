@@ -1,5 +1,3 @@
-node_modules/
-.prettierrc
-.idea/
-.env
-db/
+./node_modules/
+./.env
+./db/

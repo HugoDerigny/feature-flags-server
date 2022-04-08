@@ -1,121 +1,35 @@
-import { DisplayType, RawService, RawPr, ServiceStatus } from '../types/RawService'
-import Vitals from './Vitals'
-import Runner from './Runner'
-import PullRequest from './PullRequest'
+import Flag, { FlagDto } from './Flag'
 
-class Service {
-	private readonly _name: string
-	private readonly _token: string
-	private readonly _displayType: DisplayType
-	private readonly _gitUrl: string
-	private readonly _accessUrl: string
-	private readonly _groupId: number
-	private readonly _environment: string
-	private readonly _status: ServiceStatus
-	private readonly _vitals: Vitals
-	private readonly _runner: Runner | undefined
-	private readonly _prs: PullRequest[] | undefined
+export interface ServiceDto {
+	id: string
+	name: string
+	flags: FlagDto[]
+	updatedAt: string
+}
 
-	constructor(
-		name: string,
-		token: string,
-		displayType: DisplayType,
-		gitUrl: string,
-		accessUrl: string,
-		groupId: number,
-		environment: string,
-		vitals: Vitals,
-		status: ServiceStatus,
-		runner: Runner | undefined,
-		prs: PullRequest[] | undefined
-	) {
-		this._name = name
-		this._token = token
-		this._displayType = displayType
-		this._gitUrl = gitUrl
-		this._accessUrl = accessUrl
-		this._groupId = groupId
-		this._environment = environment
-		this._vitals = vitals
-		this._status = status
-		this._runner = runner
-		this._prs = prs
+export default class Service {
+	private readonly _id: string
+	public name: string
+	public flags: Flag[]
+	public updatedAt: Date
+
+	constructor(id: string, name: string, flags: Flag[], updatedAt: Date) {
+		this._id = id
+		this.name = name
+		this.flags = flags
+		this.updatedAt = updatedAt
 	}
 
-	static fromJson(object: RawService, groupId: number): Service {
-		function getDisplayType(type: string): DisplayType {
-			switch (type) {
-				case 'responseTime':
-					return DisplayType.RESPONSE_TIME
-
-				case 'idle':
-				default:
-					return DisplayType.IDLE
-			}
-		}
-
+	static Deserialize(json: ServiceDto): Service {
 		return new Service(
-			object.name,
-			object.id,
-			getDisplayType(object.displayType),
-			object.gitUrl,
-			object.accessUrl,
-			groupId,
-			object.environment,
-			Vitals.fromJson(object._vital),
-			object.status,
-			object._runner ? Runner.fromJson(object._runner) : undefined,
-			object._prs ? object._prs.map((pr: RawPr) => PullRequest.fromJson(pr)) : undefined
+			json.id,
+			json.name,
+			json.flags.map(Flag.Deserialize),
+			new Date(json.updatedAt)
 		)
 	}
 
-	get environment(): string {
-		return this._environment
-	}
-
-	get groupId(): number {
-		return this._groupId
-	}
-
-	get name(): string {
-		return this._name
-	}
-
-	get token(): string {
-		return this._token
-	}
-
-	get displayType(): DisplayType {
-		return this._displayType
-	}
-
-	get gitUrl(): string {
-		return this._gitUrl
-	}
-
-	get accessUrl(): string {
-		return this._accessUrl
-	}
-
-	get vitals(): Vitals {
-		return this._vitals
-	}
-
-	get status(): ServiceStatus {
-		if (this._runner) {
-			return this._runner.busy ? ServiceStatus.IN_BUILD : this._status
-		}
-
-		return this._status
-	}
-
-	get runner(): Runner | undefined {
-		return this?._runner
-	}
-
-	get prs(): PullRequest[] | undefined {
-		return this._prs
+	get id(): string {
+		return this._id
 	}
 }
-
-export default Service

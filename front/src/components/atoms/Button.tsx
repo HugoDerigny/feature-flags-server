@@ -1,15 +1,9 @@
-import { ReactNode, SyntheticEvent } from 'react'
+import React from 'react'
 
-type Props = {
-	type: 'button' | 'reset' | 'submit'
-	name: string
-	children: ReactNode
-	className?: string
+interface ButtonProps {
 	color?: 'light' | 'full'
 	variant?: 'default' | 'danger'
 	loading?: boolean
-	onClick?: (event: SyntheticEvent) => void
-	disabled?: boolean
 }
 
 export default function Button({
@@ -21,8 +15,9 @@ export default function Button({
 	disabled,
 	children,
 	className,
+	title,
 	variant,
-}: Props) {
+}: ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	function getClass() {
 		const finalClass = `button ${className ?? ''}`
 
@@ -38,12 +33,13 @@ export default function Button({
 			name={name}
 			onClick={onClick}
 			className={getClass()}
+			title={title}
 		>
 			{!loading ? (
 				children
 			) : (
 				<svg
-					className='w-6 h-6 animate-spin'
+					className='w-5 h-5 animate-spin'
 					fill='none'
 					stroke='currentColor'
 					viewBox='0 0 24 24'

@@ -1,11 +1,9 @@
-import { RawFlag } from '../types/RawService'
-
-class Flag {
+export interface FlagDto {
 	id: number
 	serviceId: string
 	key: string
 	value: string
-	description: string
+	summary: string
 	enabled: boolean
 	enabledForOpera: boolean
 	enabledForFirefox: boolean
@@ -13,17 +11,31 @@ class Flag {
 	enabledForIE: boolean
 	enabledForEdge: boolean
 	enabledForChrome: boolean
+	updatedAt: string
+}
+
+export default class Flag {
+	private readonly _id: number
+	public serviceId: string
+	public key: string
+	public value: string
+	public summary: string
+	public enabled: boolean
+	public enabledForOpera: boolean
+	public enabledForFirefox: boolean
+	public enabledForSafari: boolean
+	public enabledForIE: boolean
+	public enabledForEdge: boolean
+	public enabledForChrome: boolean
 
 	updatedAt: Date
-
-	_serviceLabel: string
 
 	constructor(
 		id: number,
 		serviceId: string,
 		key: string,
 		value: string,
-		description: string,
+		summary: string,
 		enabled: boolean,
 		enabledForOpera: boolean,
 		enabledForFirefox: boolean,
@@ -31,14 +43,13 @@ class Flag {
 		enabledForIE: boolean,
 		enabledForEdge: boolean,
 		enabledForChrome: boolean,
-		updatedAt: Date,
-		serviceLabel: string
+		updatedAt: Date
 	) {
-		this.id = id
+		this._id = id
 		this.serviceId = serviceId
 		this.key = key
 		this.value = value
-		this.description = description
+		this.summary = summary
 		this.enabled = enabled
 		this.enabledForOpera = enabledForOpera
 		this.enabledForFirefox = enabledForFirefox
@@ -47,16 +58,15 @@ class Flag {
 		this.enabledForEdge = enabledForEdge
 		this.enabledForChrome = enabledForChrome
 		this.updatedAt = updatedAt
-		this._serviceLabel = serviceLabel
 	}
 
-	static fromJson(json: RawFlag): Flag {
+	public static Deserialize(json: FlagDto): Flag {
 		return new Flag(
 			json.id,
 			json.serviceId,
 			json.key,
-			json.value ?? '',
-			json.description ?? '',
+			json.value,
+			json.summary,
 			json.enabled,
 			json.enabledForOpera,
 			json.enabledForFirefox,
@@ -64,8 +74,7 @@ class Flag {
 			json.enabledForIE,
 			json.enabledForEdge,
 			json.enabledForChrome,
-			new Date(json.updatedAt),
-			json._serviceLabel
+			new Date(json.updatedAt)
 		)
 	}
 
@@ -89,9 +98,12 @@ class Flag {
 				this.enabledForIE ||
 				this.enabledForFirefox ||
 				this.enabledForOpera ||
-				this.enabledForSafari)
+				this.enabledForSafari) &&
+			!this.isFullyEnabled()
 		)
 	}
-}
 
-export default Flag
+	get id(): number {
+		return this._id
+	}
+}

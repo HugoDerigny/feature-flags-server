@@ -1,18 +1,20 @@
 .button {
   @apply mt-3 w-full inline-flex justify-center place-items-center border font-semibold rounded-xl shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm;
+  @apply dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 dark:border-gray-700;
   --tw-ring-offset-width: 2px;
+  @apply focus:ring-offset-2 focus:ring-primary-500;
 }
 .button:disabled {
   @apply cursor-not-allowed opacity-50;
 }
 .button__light {
-  @apply border-none bg-indigo-100 hover:bg-indigo-200 focus:ring-indigo-500 text-indigo-700 !important;
+  @apply border-none bg-primary-100 hover:bg-primary-200 focus:ring-primary-500 text-primary-700 !important;
 }
 .button__light__danger {
   @apply bg-red-100 hover:bg-red-200 focus:ring-red-500 text-red-700 !important;
 }
 .button__full {
-  @apply border-none bg-indigo-500 hover:bg-indigo-700 focus:ring-indigo-500 text-indigo-50 !important;
+  @apply border-none bg-primary-500 hover:bg-primary-700 focus:ring-primary-500 text-primary-50 !important;
 }
 .button__full__danger {
   @apply border-none bg-red-500 hover:bg-red-700 focus:ring-red-500 text-red-50 !important;

@@ -13,15 +13,9 @@ export default [
 		schema: {
 			body: {
 				type: 'object',
-				required: ['name', 'groupId', 'environment', 'displayType'],
+				required: ['name'],
 				properties: {
 					name: { type: 'string' },
-					groupId: { type: 'number' },
-					environment: { type: 'string', enum: ['test', 'prod', 'pra'] },
-					displayType: { type: 'string', enum: ['idle', 'response_time'] },
-					gitUrl: { type: ['string', 'null'] },
-					accessUrl: { type: ['string', 'null'] },
-					runnerName: { type: ['string', 'null'] },
 				},
 			},
 		},
@@ -39,34 +33,22 @@ export default [
 			},
 			body: {
 				type: 'object',
-				required: ['name', 'environment', 'displayType'],
+				required: ['name'],
 				properties: {
 					name: { type: 'string' },
-					environment: { type: 'string', enum: ['test', 'prod', 'pra'] },
-					displayType: { type: 'string', enum: ['idle', 'response_time'] },
-					gitUrl: { type: ['string', 'null'] },
-					accessUrl: { type: ['string', 'null'] },
-					runnerName: { type: ['string', 'null'] },
 				},
 			},
 		},
 	},
 	{
-		method: 'POST',
-		url: '/services/:uid/vitals',
-		handler: ServicesHandler.registerVitals,
+		method: 'DELETE',
+		url: '/services/:uid',
+		handler: ServicesHandler.delete,
 		schema: {
 			param: {
 				type: 'object',
 				properties: {
 					uid: { type: 'string' },
-				},
-			},
-			body: {
-				type: 'object',
-				required: ['value'],
-				properties: {
-					value: { type: 'number' },
 				},
 			},
 		},

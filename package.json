@@ -1,0 +1,22 @@
+{
+  "name": "feature-flags",
+  "version": "1.0.0",
+  "description": "A webserver that allows to manager feature flags with a dedicated UI",
+  "scripts": {
+    "dev-api": "cd ./api && npm run dev",
+    "dev-front": "cd ./front && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HugoDerigny/feature-flags-api.git"
+  },
+  "author": "HugoDerigny",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/HugoDerigny/feature-flags-server/issues"
+  },
+  "homepage": "https://github.com/HugoDerigny/feature-flags-server#readme",
+  "devDependencies": {
+    "prettier": "^2.5.1"
+  }
+}
